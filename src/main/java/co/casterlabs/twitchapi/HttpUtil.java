@@ -13,6 +13,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class HttpUtil {
+    private static final OkHttpClient client = new OkHttpClient();
 
     public static Response sendHttpGet(@NonNull String address, @Nullable Map<String, String> headers, @Nullable TwitchAuth auth) throws IOException {
         return sendHttp(null, null, address, headers, null, auth);
@@ -23,7 +24,6 @@ public class HttpUtil {
     }
 
     public static Response sendHttp(@Nullable RequestBody body, @Nullable String type, @NonNull String address, @Nullable Map<String, String> headers, @Nullable String mime, @Nullable TwitchAuth auth) throws IOException {
-        OkHttpClient client = new OkHttpClient().newBuilder().proxy(TwitchApi.getProxy()).build();
         Request.Builder builder = new Request.Builder().url(address);
 
         if ((body != null) && (type != null)) {

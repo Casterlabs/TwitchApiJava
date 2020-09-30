@@ -1,6 +1,5 @@
 package co.casterlabs.twitchapi;
 
-import java.net.Proxy;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
@@ -11,8 +10,6 @@ import co.casterlabs.apiutil.ratelimit.BucketRateLimiter;
 import co.casterlabs.apiutil.ratelimit.RateLimiter;
 import co.casterlabs.twitchapi.serializers.InstantSerializer;
 import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
 
 public class TwitchApi {
     // @formatter:off
@@ -21,7 +18,6 @@ public class TwitchApi {
             .create();
     // @formatter:on
 
-    private static @Getter @Setter @NonNull Proxy proxy = Proxy.NO_PROXY;
     private static @Getter RateLimiter unauthenticatedRateLimiter = new BucketRateLimiter(30, 1, TimeUnit.MINUTES); // https://dev.twitch.tv/docs/api/guide#rate-limits
 
 }
