@@ -49,6 +49,8 @@ public abstract class TwitchHelixAuth implements TwitchAuth {
         if ((this.accessToken != null) && (this.clientId != null)) {
             Response response = HttpUtil.sendHttpGet("https://id.twitch.tv/oauth2/validate", null, this);
 
+            response.close();
+
             return response.code() == 200;
         }
 

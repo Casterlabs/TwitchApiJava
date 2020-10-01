@@ -43,6 +43,8 @@ public class HelixGetUserFollowsRequest extends AuthenticatedWebRequest<List<Hel
             Response response = HttpUtil.sendHttpGet(url, null, this.auth);
             JsonObject json = TwitchApi.GSON.fromJson(response.body().string(), JsonObject.class);
 
+            response.close();
+
             if (response.code() == 200) {
                 JsonArray data = json.getAsJsonArray("data");
 

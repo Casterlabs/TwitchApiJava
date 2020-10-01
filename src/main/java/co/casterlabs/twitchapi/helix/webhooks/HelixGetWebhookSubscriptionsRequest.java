@@ -40,6 +40,8 @@ public class HelixGetWebhookSubscriptionsRequest extends AuthenticatedWebRequest
             Response response = HttpUtil.sendHttpGet(String.format("https://api.twitch.tv/helix/webhooks/subscriptions?first=100&after=%s", after), null, this.auth);
             JsonObject json = TwitchApi.GSON.fromJson(response.body().string(), JsonObject.class);
 
+            response.close();
+
             if (response.code() == 200) {
                 JsonArray data = json.getAsJsonArray("data");
 

@@ -59,6 +59,8 @@ public class HelixGetUsersRequest extends AuthenticatedWebRequest<List<HelixUser
             Response response = HttpUtil.sendHttpGet(url, null, auth);
             JsonObject json = TwitchApi.GSON.fromJson(response.body().string(), JsonObject.class);
 
+            response.close();
+
             if (response.code() == 200) {
                 JsonArray data = json.getAsJsonArray("data");
 

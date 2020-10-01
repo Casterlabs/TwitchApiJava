@@ -58,7 +58,7 @@ public class HelixWebhookSubscribeRequest extends AuthenticatedWebRequest<Void, 
             payload.addProperty("hub.secret", this.secret);
         }
 
-        HttpUtil.sendHttp(payload.toString(), "https://api.twitch.tv/helix/webhooks/hub", null, "application/json", this.auth);
+        HttpUtil.sendHttp(payload.toString(), "https://api.twitch.tv/helix/webhooks/hub", null, "application/json", this.auth).close();
 
         if (this.autoRefresh) {
             ThreadHelper.executeAsync(() -> {

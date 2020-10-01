@@ -31,6 +31,8 @@ public class TwitchHelixClientCredentialsAuth extends TwitchHelixAuth {
                 Response response = HttpUtil.sendHttp("{}", url, null, null, null);
                 JsonObject json = TwitchApi.GSON.fromJson(response.body().string(), JsonObject.class);
 
+                response.close();
+
                 if (response.code() == 200) {
                     this.accessToken = json.get("access_token").getAsString();
                     this.expireTime = Instant.now().plusSeconds(json.get("expires_in").getAsLong());
