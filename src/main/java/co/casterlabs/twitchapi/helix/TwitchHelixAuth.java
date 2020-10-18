@@ -35,7 +35,7 @@ public abstract class TwitchHelixAuth implements TwitchAuth {
     }
 
     public void autoRefresh() {
-        ThreadHelper.executeAsyncLater(() -> {
+        ThreadHelper.executeAsyncLater("Auth refresh", () -> {
             try {
                 this.refresh();
             } catch (Exception e) {

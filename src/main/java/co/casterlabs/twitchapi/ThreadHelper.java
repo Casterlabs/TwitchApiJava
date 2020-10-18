@@ -1,22 +1,30 @@
 package co.casterlabs.twitchapi;
 
-import lombok.SneakyThrows;
-
 public class ThreadHelper {
+    private static int threadCount = 0;
 
-    public static void executeAsync(Runnable run) {
-        new Thread(run).start();
+    public static void executeAsync(String name, Runnable run) {
+        Thread t = new Thread(run);
+
+        t.setName(name + " - TwitchApi Async Thread #" + threadCount++);
+        t.start();
     }
 
-    public static void executeAsyncLater(Runnable run, long millis) {
-        (new Thread() {
-            @SneakyThrows
+    public static Thread executeAsyncLater(String name, Runnable run, long millis) {
+        Thread t = (new Thread() {
             @Override
             public void run() {
-                Thread.sleep(millis);
-                run.run();
+                try {
+                    Thread.sleep(millis);
+                    run.run();
+                } catch (InterruptedException ignored) {} // We ignore this so we can cancel waits.
             }
-        }).start();
+        });
+
+        t.setName(name + " - TwitchApi Waiting Thread #" + threadCount++);
+        t.start();
+
+        return t;
     }
 
 }

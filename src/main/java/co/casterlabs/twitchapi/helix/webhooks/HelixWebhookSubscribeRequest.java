@@ -21,6 +21,7 @@ public class HelixWebhookSubscribeRequest extends AuthenticatedWebRequest<Void, 
     private long leaseSeconds = 864000; // https://dev.twitch.tv/docs/api/webhooks-reference#subscribe-tounsubscribe-from-events
     private boolean autoRefresh = false;
     private WebhookSubscribeMode mode;
+    private Thread refreshThread;
     private String callback;
     private String topic;
     private String secret;
@@ -61,7 +62,7 @@ public class HelixWebhookSubscribeRequest extends AuthenticatedWebRequest<Void, 
         HttpUtil.sendHttp(payload.toString(), "https://api.twitch.tv/helix/webhooks/hub", null, "application/json", this.auth).close();
 
         if (this.autoRefresh) {
-            ThreadHelper.executeAsync(() -> {
+            ThreadHelper.executeAsync(this.topic + " webhook", () -> {
                 while (this.autoRefresh) {
                     try {
                         Thread.sleep((this.leaseSeconds * 1000) + 500);
@@ -75,6 +76,13 @@ public class HelixWebhookSubscribeRequest extends AuthenticatedWebRequest<Void, 
         }
 
         return null;
+    }
+
+    @Override
+    protected void finalize() {
+        if (this.refreshThread != null) {
+            this.refreshThread.interrupt();
+        }
     }
 
     public static enum WebhookSubscribeMode {
