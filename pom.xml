@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>co.casterlabs</groupId>
 	<artifactId>TwitchApiJava</artifactId>
-	<version>1.0.5</version>
+	<version>1.1.0</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -73,7 +73,7 @@
 		<dependency>
 			<groupId>com.github.casterlabs</groupId>
 			<artifactId>ApiUtil</artifactId>
-			<version>1.1.0</version>
+			<version>12ea2ba</version>
 			<scope>compile</scope>
 		</dependency>
 	</dependencies>

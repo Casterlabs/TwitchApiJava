@@ -80,15 +80,22 @@ public class HelixGetStreamsRequest extends AuthenticatedWebRequest<List<HelixSt
     @EqualsAndHashCode
     public static class HelixStream {
         private @NonNull String id;
+
+        private @NonNull String language;
+
+        private @NonNull String title;
+
+        private @NonNull String type;
+
         @SerializedName("user_name")
         private @NonNull String userName;
+
         @SerializedName("started_at")
         private @NonNull String startedAt;
-        private @NonNull String language;
-        private @NonNull String title;
-        private @NonNull String type;
+
         @SerializedName("viewer_count")
         private @NonNull String viewerCount;
+
         @SerializedName("thumbnail_url")
         private @NonNull String thumbnailUrl;
 

@@ -2,7 +2,6 @@ package co.casterlabs.twitchapi.helix;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -48,33 +47,29 @@ public class HelixGetUsersRequest extends AuthenticatedWebRequest<List<HelixUser
     public List<HelixUser> execute() throws ApiException, ApiAuthException, IOException {
         this.auth.getRateLimiter().block();
 
-        if (!this.ids.isEmpty() || !this.logins.isEmpty()) {
-            Set<HelixUser> users = new HashSet<>();
-            StringBuilder sb = new StringBuilder("https://api.twitch.tv/helix/users?");
+        Set<HelixUser> users = new HashSet<>();
+        StringBuilder sb = new StringBuilder("https://api.twitch.tv/helix/users?");
 
-            this.ids.forEach((id) -> sb.append("&id=").append(id));
-            this.logins.forEach((login) -> sb.append("&login=").append(login));
+        this.ids.forEach((id) -> sb.append("&id=").append(id));
+        this.logins.forEach((login) -> sb.append("&login=").append(login));
 
-            String url = sb.toString().replaceFirst("&", "");
-            Response response = HttpUtil.sendHttpGet(url, null, auth);
-            JsonObject json = TwitchApi.GSON.fromJson(response.body().string(), JsonObject.class);
+        String url = sb.toString().replaceFirst("&", "");
+        Response response = HttpUtil.sendHttpGet(url, null, auth);
+        JsonObject json = TwitchApi.GSON.fromJson(response.body().string(), JsonObject.class);
 
-            response.close();
+        response.close();
 
-            if (response.code() == 200) {
-                JsonArray data = json.getAsJsonArray("data");
+        if (response.code() == 200) {
+            JsonArray data = json.getAsJsonArray("data");
 
-                for (JsonElement e : data) {
-                    users.add(TwitchApi.GSON.fromJson(e, HelixUser.class));
-                }
-            } else {
-                throw new ApiException("Unable to get users: " + json.get("message").getAsString());
+            for (JsonElement e : data) {
+                users.add(TwitchApi.GSON.fromJson(e, HelixUser.class));
             }
-
-            return new ArrayList<>(users);
         } else {
-            return Collections.emptyList();
+            throw new ApiException("Unable to get users: " + json.get("message").getAsString());
         }
+
+        return new ArrayList<>(users);
     }
 
     @Getter
@@ -82,20 +77,29 @@ public class HelixGetUsersRequest extends AuthenticatedWebRequest<List<HelixUser
     @EqualsAndHashCode
     public static class HelixUser {
         private @NonNull String id;
+
         private @NonNull String login;
+
+        private @NonNull String description;
+
+        private @NonNull String type;
+
+        private @Nullable String email;
+
         @SerializedName("display_name")
         private @NonNull String displayName;
-        private @NonNull String type;
+
         @SerializedName("broadcaster_type")
         private @NonNull String broadcasterType;
-        private @NonNull String description;
+
         @SerializedName("profile_image_url")
         private @NonNull String profileImageUrl;
+
         @SerializedName("offline_image_url")
         private @NonNull String offlineImageUrl;
+
         @SerializedName("view_count")
         private long viewCount;
-        private @Nullable String email;
 
     }
 

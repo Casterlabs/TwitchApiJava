@@ -73,6 +73,7 @@ public class HelixGetUserFollowsRequest extends AuthenticatedWebRequest<List<Hel
     public static class HelixFollower {
         @SerializedName("from_id")
         private @NonNull String id;
+
         @SerializedName("followed_at")
         private @NonNull Instant followedAt;
 
