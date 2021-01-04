@@ -15,31 +15,35 @@ import co.casterlabs.apiutil.web.ApiException;
 import co.casterlabs.apiutil.web.AuthenticatedWebRequest;
 import co.casterlabs.twitchapi.HttpUtil;
 import co.casterlabs.twitchapi.TwitchApi;
-import co.casterlabs.twitchapi.helix.HelixGetUserFollowsRequest.HelixFollower;
+import co.casterlabs.twitchapi.helix.HelixGetUserFollowersRequest.HelixFollowersResult;
 import co.casterlabs.twitchapi.helix.HelixGetUsersRequest.HelixUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 import lombok.ToString;
 import okhttp3.Response;
 
-public class HelixGetUserFollowsRequest extends AuthenticatedWebRequest<List<HelixFollower>, TwitchHelixAuth> {
+public class HelixGetUserFollowersRequest extends AuthenticatedWebRequest<HelixFollowersResult, TwitchHelixAuth> {
+    private @Setter boolean getAll = false;
+    private @Setter int first = 20;
     private String id;
 
-    public HelixGetUserFollowsRequest(@NonNull String id, @NonNull TwitchHelixAuth auth) {
+    public HelixGetUserFollowersRequest(@NonNull String id, @NonNull TwitchHelixAuth auth) {
         super(auth);
         this.id = id;
     }
 
     @Override
-    public List<HelixFollower> execute() throws ApiException, IOException {
-        this.auth.getRateLimiter().block();
-
+    public HelixFollowersResult execute() throws ApiException, IOException {
         List<HelixFollower> followers = new ArrayList<>();
-        String after = "";
+        long total = 0;
 
-        while (after != null) {
-            String url = String.format("https://api.twitch.tv/helix/users/follows?first=100&to_id=%s&after=%s", this.id, after);
+        String after = "";
+        do {
+            this.auth.getRateLimiter().block();
+
+            String url = String.format("https://api.twitch.tv/helix/users/follows?first=%d&to_id=%s&after=%s", this.first, this.id, after);
             Response response = HttpUtil.sendHttpGet(url, null, this.auth);
             JsonObject json = TwitchApi.GSON.fromJson(response.body().string(), JsonObject.class);
 
@@ -47,6 +51,8 @@ public class HelixGetUserFollowsRequest extends AuthenticatedWebRequest<List<Hel
 
             if (response.code() == 200) {
                 JsonArray data = json.getAsJsonArray("data");
+
+                total = json.get("total").getAsInt();
 
                 for (JsonElement e : data) {
                     followers.add(TwitchApi.GSON.fromJson(e, HelixFollower.class));
@@ -57,14 +63,14 @@ public class HelixGetUserFollowsRequest extends AuthenticatedWebRequest<List<Hel
                 if (pagination.has("cursor")) {
                     after = pagination.get("cursor").getAsString();
                 } else {
-                    after = null;
+                    break;
                 }
             } else {
                 throw new ApiException("Unable to get followers: " + json.get("message").getAsString());
             }
-        }
+        } while (this.getAll);
 
-        return followers;
+        return new HelixFollowersResult(followers, total);
     }
 
     @Getter
@@ -80,6 +86,15 @@ public class HelixGetUserFollowsRequest extends AuthenticatedWebRequest<List<Hel
         public HelixUser getAsUser(@NonNull TwitchHelixAuth auth) throws ApiAuthException, ApiException, IOException {
             return new HelixGetUsersRequest(auth).addId(this.id).execute().get(0);
         }
+
+    }
+
+    @Getter
+    @ToString
+    @AllArgsConstructor
+    public static class HelixFollowersResult {
+        private List<HelixFollower> followers;
+        private long total;
 
     }
 
