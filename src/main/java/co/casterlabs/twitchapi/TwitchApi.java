@@ -8,13 +8,16 @@ import com.google.gson.GsonBuilder;
 
 import co.casterlabs.apiutil.ratelimit.BucketRateLimiter;
 import co.casterlabs.apiutil.ratelimit.RateLimiter;
+import co.casterlabs.twitchapi.pubsub.PubSubError;
 import co.casterlabs.twitchapi.serializers.InstantSerializer;
+import co.casterlabs.twitchapi.serializers.PubSubErrorDeserializer;
 import lombok.Getter;
 
 public class TwitchApi {
     // @formatter:off
     public static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(Instant.class, new InstantSerializer())
+            .registerTypeAdapter(PubSubError.class, new PubSubErrorDeserializer())
             .create();
     // @formatter:on
 
