@@ -15,9 +15,10 @@ import lombok.NonNull;
 import okhttp3.Request;
 import okhttp3.Response;
 
+@Getter
 public abstract class TwitchHelixAuth implements TwitchAuth {
     private @Getter RateLimiter rateLimiter = new BucketRateLimiter(800, 1, TimeUnit.MINUTES); // https://dev.twitch.tv/docs/api/guide#rate-limits
-    protected @NonNull @Getter Instant expireTime = Instant.now();
+    protected @NonNull Instant expireTime = Instant.now();
     protected String accessToken;
     protected String clientId;
 
