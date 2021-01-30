@@ -27,7 +27,7 @@ public class CheermoteCache {
             Map<String, HelixCheermote> newCheermotes = new HashMap<>();
 
             for (HelixCheermote cheermote : cheermotes) {
-                newCheermotes.put(cheermote.getPrefix(), cheermote);
+                newCheermotes.put(cheermote.getPrefix().toLowerCase(), cheermote);
             }
 
             cheermoteMap = newCheermotes;
@@ -50,7 +50,7 @@ public class CheermoteCache {
 
             if (split != null) {
                 try {
-                    String prefix = split[0];
+                    String prefix = split[0].toLowerCase();
 
                     HelixCheermote cheermote = cheermoteMap.get(prefix);
 
@@ -60,7 +60,7 @@ public class CheermoteCache {
                         HelixCheermote.CheermoteTier tier = cheermote.getTier(amount);
 
                         if (tier != null) {
-                            cheermotes.put(match, new CheermoteMatch(prefix, amount, cheermote, tier));
+                            cheermotes.put(match, new CheermoteMatch(cheermote.getPrefix(), amount, cheermote, tier));
                         }
                     }
                 } catch (NumberFormatException ignored) {}

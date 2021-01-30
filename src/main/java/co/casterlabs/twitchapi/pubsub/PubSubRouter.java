@@ -19,6 +19,8 @@ import lombok.NonNull;
 import lombok.SneakyThrows;
 
 public class PubSubRouter {
+    private static final String PING_MESSAGE = "{\"type\": \"PING\"}";
+
     public static final int MAX_TOPICS = 50;
 
     private static URI PUBSUB_ENDPOINT;
@@ -96,10 +98,11 @@ public class PubSubRouter {
         @Override
         public void onOpen(ServerHandshake handshakedata) {
             ThreadHelper.executeAsync("Twitch PubSub KeepAlive", () -> {
-                while (this.isOpen()) {
+                while (isConnected()) {
                     try {
                         TimeUnit.MINUTES.sleep(1);
 
+                        this.send(PING_MESSAGE);
                     } catch (InterruptedException ignored) {}
                 }
             });
