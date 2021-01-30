@@ -1,22 +1,20 @@
-package co.casterlabs.twitchapi.helix;
+package co.casterlabs.twitchapi.helix.requests;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.annotations.SerializedName;
 
-import co.casterlabs.apiutil.auth.ApiAuthException;
 import co.casterlabs.apiutil.web.ApiException;
 import co.casterlabs.apiutil.web.AuthenticatedWebRequest;
 import co.casterlabs.twitchapi.HttpUtil;
 import co.casterlabs.twitchapi.TwitchApi;
-import co.casterlabs.twitchapi.helix.HelixGetUserFollowersRequest.HelixFollowersResult;
-import co.casterlabs.twitchapi.helix.HelixGetUsersRequest.HelixUser;
+import co.casterlabs.twitchapi.helix.TwitchHelixAuth;
+import co.casterlabs.twitchapi.helix.requests.HelixGetUserFollowersRequest.HelixFollowersResult;
+import co.casterlabs.twitchapi.helix.types.HelixFollower;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
@@ -71,22 +69,6 @@ public class HelixGetUserFollowersRequest extends AuthenticatedWebRequest<HelixF
         } while (this.getAll);
 
         return new HelixFollowersResult(followers, total);
-    }
-
-    @Getter
-    @ToString
-    @AllArgsConstructor
-    public static class HelixFollower {
-        @SerializedName("from_id")
-        private @NonNull String id;
-
-        @SerializedName("followed_at")
-        private @NonNull Instant followedAt;
-
-        public HelixUser getAsUser(@NonNull TwitchHelixAuth auth) throws ApiAuthException, ApiException, IOException {
-            return new HelixGetUsersRequest(auth).addId(this.id).execute().get(0);
-        }
-
     }
 
     @Getter

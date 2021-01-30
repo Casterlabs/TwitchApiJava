@@ -1,4 +1,4 @@
-package co.casterlabs.twitchapi.helix;
+package co.casterlabs.twitchapi.helix.requests;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,18 +10,15 @@ import java.util.Set;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.annotations.SerializedName;
 
 import co.casterlabs.apiutil.auth.ApiAuthException;
 import co.casterlabs.apiutil.web.ApiException;
 import co.casterlabs.apiutil.web.AuthenticatedWebRequest;
 import co.casterlabs.twitchapi.HttpUtil;
 import co.casterlabs.twitchapi.TwitchApi;
-import co.casterlabs.twitchapi.helix.HelixGetStreamsRequest.HelixStream;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import co.casterlabs.twitchapi.helix.TwitchHelixAuth;
+import co.casterlabs.twitchapi.helix.types.HelixStream;
 import lombok.NonNull;
-import lombok.ToString;
 import okhttp3.Response;
 
 public class HelixGetStreamsRequest extends AuthenticatedWebRequest<List<HelixStream>, TwitchHelixAuth> {
@@ -73,32 +70,6 @@ public class HelixGetStreamsRequest extends AuthenticatedWebRequest<List<HelixSt
         } else {
             return Collections.emptyList();
         }
-    }
-
-    @Getter
-    @ToString
-    @EqualsAndHashCode
-    public static class HelixStream {
-        private @NonNull String id;
-
-        private @NonNull String language;
-
-        private @NonNull String title;
-
-        private @NonNull String type;
-
-        @SerializedName("user_name")
-        private @NonNull String userName;
-
-        @SerializedName("started_at")
-        private @NonNull String startedAt;
-
-        @SerializedName("viewer_count")
-        private @NonNull String viewerCount;
-
-        @SerializedName("thumbnail_url")
-        private @NonNull String thumbnailUrl;
-
     }
 
 }

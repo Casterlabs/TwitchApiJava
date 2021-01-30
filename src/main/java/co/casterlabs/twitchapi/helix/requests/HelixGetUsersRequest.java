@@ -1,4 +1,4 @@
-package co.casterlabs.twitchapi.helix;
+package co.casterlabs.twitchapi.helix.requests;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,23 +6,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.jetbrains.annotations.Nullable;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.annotations.SerializedName;
 
 import co.casterlabs.apiutil.auth.ApiAuthException;
 import co.casterlabs.apiutil.web.ApiException;
 import co.casterlabs.apiutil.web.AuthenticatedWebRequest;
 import co.casterlabs.twitchapi.HttpUtil;
 import co.casterlabs.twitchapi.TwitchApi;
-import co.casterlabs.twitchapi.helix.HelixGetUsersRequest.HelixUser;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import co.casterlabs.twitchapi.helix.TwitchHelixAuth;
+import co.casterlabs.twitchapi.helix.types.HelixUser;
 import lombok.NonNull;
-import lombok.ToString;
 import okhttp3.Response;
 
 public class HelixGetUsersRequest extends AuthenticatedWebRequest<List<HelixUser>, TwitchHelixAuth> {
@@ -70,37 +65,6 @@ public class HelixGetUsersRequest extends AuthenticatedWebRequest<List<HelixUser
         }
 
         return new ArrayList<>(users);
-    }
-
-    @Getter
-    @ToString
-    @EqualsAndHashCode
-    public static class HelixUser {
-        private @NonNull String id;
-
-        private @NonNull String login;
-
-        private @NonNull String description;
-
-        private @NonNull String type;
-
-        private @Nullable String email;
-
-        @SerializedName("display_name")
-        private @NonNull String displayName;
-
-        @SerializedName("broadcaster_type")
-        private @NonNull String broadcasterType;
-
-        @SerializedName("profile_image_url")
-        private @NonNull String profileImageUrl;
-
-        @SerializedName("offline_image_url")
-        private @NonNull String offlineImageUrl;
-
-        @SerializedName("view_count")
-        private long viewCount;
-
     }
 
 }
