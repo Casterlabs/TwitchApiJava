@@ -85,9 +85,14 @@ public class SubscriptionsV1TopicMessage implements PubSubMessage {
     }
 
     public static enum SubscriptionContext {
+        SUB,
         RESUB,
+
         SUBGIFT,
-        ANONSUBGIFT;
+        RESUBGIFT,
+
+        ANONSUBGIFT,
+        ANONRESUBGIFT;
 
     }
 

@@ -16,6 +16,7 @@ public class SubscriptionPlanDeserializer implements JsonDeserializer<Subscripti
         String str = json.getAsString();
 
         switch (str) {
+            case "Prime":
             case "1":
                 return SubscriptionPlan.PRIME;
 
