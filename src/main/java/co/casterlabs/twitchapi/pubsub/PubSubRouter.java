@@ -52,8 +52,10 @@ public class PubSubRouter {
                     }
                 }
 
-                if (!this.isConnected() || (this.connection.getReadyState() == ReadyState.NOT_YET_CONNECTED)) {
+                if (this.connection.getReadyState() == ReadyState.NOT_YET_CONNECTED) {
                     this.connection.connectBlocking();
+                } else if (!this.isConnected()) {
+                    this.connection.reconnectBlocking();
                 }
 
                 for (String topic : request.getTopics()) {
