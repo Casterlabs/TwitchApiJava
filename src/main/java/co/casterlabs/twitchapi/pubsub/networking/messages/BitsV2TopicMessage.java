@@ -32,6 +32,9 @@ public class BitsV2TopicMessage implements PubSubMessage {
 
     private String context;
 
+    // Injected in the parser.
+    private String messageId;
+
     public boolean isAnonymous() {
         return this.userId == null;
     }

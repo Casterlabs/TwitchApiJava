@@ -1,5 +1,7 @@
 package co.casterlabs.twitchapi.pubsub.networking.messages;
 
+import java.util.List;
+
 import com.google.gson.annotations.SerializedName;
 
 import co.casterlabs.twitchapi.pubsub.PubSubTopic;
@@ -25,9 +27,12 @@ public class SubscriptionsV1TopicMessage implements PubSubMessage {
     private String channelId;
 
     @SerializedName("sub_plan")
-    private String subPlan;
+    private SubscriptionPlan subPlan;
 
-    private String context;
+    @SerializedName("sub_plan_name")
+    private String planName;
+
+    private SubscriptionContext context;
 
     @SerializedName("multi_month_duration")
     private int monthDuration = 1;
@@ -50,6 +55,9 @@ public class SubscriptionsV1TopicMessage implements PubSubMessage {
     @SerializedName("recipient_id")
     private String recipientUserId;
 
+    @SerializedName("sub_message")
+    private SubMessage message;
+
     public boolean isAnonymous() {
         return this.userId == null;
     }
@@ -59,10 +67,36 @@ public class SubscriptionsV1TopicMessage implements PubSubMessage {
         return PubSubTopic.BITS_v2;
     }
 
+    @Getter
+    @ToString
+    public static class SubMessage {
+        private List<MessageEmote> emotes;
+        private String message;
+
+    }
+
+    @Getter
+    @ToString
+    public static class MessageEmote {
+        private int start;
+        private int end;
+        private int id;
+
+    }
+
     public static enum SubscriptionContext {
         RESUB,
         SUBGIFT,
         ANONSUBGIFT;
+
+    }
+
+    public static enum SubscriptionPlan {
+        UNKNOWN,
+        PRIME,
+        TIER_1,
+        TIER_2,
+        TIER_3;
 
     }
 

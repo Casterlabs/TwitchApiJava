@@ -6,6 +6,7 @@ import co.casterlabs.twitchapi.TwitchApi;
 import co.casterlabs.twitchapi.pubsub.PubSubError;
 import co.casterlabs.twitchapi.pubsub.PubSubTopic;
 import co.casterlabs.twitchapi.pubsub.networking.messages.BitsV2TopicMessage;
+import co.casterlabs.twitchapi.pubsub.networking.messages.ChannelPointsV1TopicMessage;
 import co.casterlabs.twitchapi.pubsub.networking.messages.PubSubMessage;
 import co.casterlabs.twitchapi.pubsub.networking.messages.SubscriptionsV1TopicMessage;
 import lombok.Getter;
@@ -28,14 +29,23 @@ public class PubSubResponse {
         private String message;
 
         public PubSubMessage deserializeMessage() {
-            JsonObject data = TwitchApi.GSON.fromJson(this.message, JsonObject.class);
+            JsonObject message = TwitchApi.GSON.fromJson(this.message, JsonObject.class);
 
             switch (this.getTopicType()) {
                 case BITS_v2:
-                    return TwitchApi.GSON.fromJson(data.get("data"), BitsV2TopicMessage.class);
+                    JsonObject bitsData = message.getAsJsonObject("data");
+
+                    bitsData.add("messageId", message.get("message_id"));
+
+                    return TwitchApi.GSON.fromJson(bitsData, BitsV2TopicMessage.class);
 
                 case SUBSCRIPTIONS_v1:
-                    return TwitchApi.GSON.fromJson(data, SubscriptionsV1TopicMessage.class);
+                    return TwitchApi.GSON.fromJson(message, SubscriptionsV1TopicMessage.class);
+
+                case CHANNEL_POINTS_V1:
+                    JsonObject pointsData = message.getAsJsonObject("data");
+
+                    return TwitchApi.GSON.fromJson(pointsData.get("redemption"), ChannelPointsV1TopicMessage.class);
 
                 default:
                     return null;
