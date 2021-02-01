@@ -7,7 +7,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
-import co.casterlabs.twitchapi.pubsub.networking.messages.SubscriptionsV1TopicMessage.SubscriptionPlan;
+import co.casterlabs.twitchapi.pubsub.messages.SubscriptionsV1TopicMessage.SubscriptionPlan;
 
 public class SubscriptionPlanDeserializer implements JsonDeserializer<SubscriptionPlan> {
 

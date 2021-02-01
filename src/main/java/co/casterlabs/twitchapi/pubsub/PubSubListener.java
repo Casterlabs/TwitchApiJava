@@ -1,6 +1,6 @@
 package co.casterlabs.twitchapi.pubsub;
 
-import co.casterlabs.twitchapi.pubsub.networking.messages.PubSubMessage;
+import co.casterlabs.twitchapi.pubsub.messages.PubSubMessage;
 
 public interface PubSubListener {
 

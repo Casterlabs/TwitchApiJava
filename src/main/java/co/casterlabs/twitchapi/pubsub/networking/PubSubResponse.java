@@ -5,10 +5,10 @@ import com.google.gson.JsonObject;
 import co.casterlabs.twitchapi.TwitchApi;
 import co.casterlabs.twitchapi.pubsub.PubSubError;
 import co.casterlabs.twitchapi.pubsub.PubSubTopic;
-import co.casterlabs.twitchapi.pubsub.networking.messages.BitsV2TopicMessage;
-import co.casterlabs.twitchapi.pubsub.networking.messages.ChannelPointsV1TopicMessage;
-import co.casterlabs.twitchapi.pubsub.networking.messages.PubSubMessage;
-import co.casterlabs.twitchapi.pubsub.networking.messages.SubscriptionsV1TopicMessage;
+import co.casterlabs.twitchapi.pubsub.messages.BitsV2TopicMessage;
+import co.casterlabs.twitchapi.pubsub.messages.ChannelPointsV1TopicMessage;
+import co.casterlabs.twitchapi.pubsub.messages.PubSubMessage;
+import co.casterlabs.twitchapi.pubsub.messages.SubscriptionsV1TopicMessage;
 import lombok.Getter;
 import lombok.ToString;
 

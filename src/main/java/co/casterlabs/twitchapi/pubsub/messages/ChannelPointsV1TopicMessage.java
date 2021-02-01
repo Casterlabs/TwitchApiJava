@@ -1,6 +1,8 @@
-package co.casterlabs.twitchapi.pubsub.networking.messages;
+package co.casterlabs.twitchapi.pubsub.messages;
 
 import java.time.Instant;
+
+import org.jetbrains.annotations.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -18,6 +20,10 @@ public class ChannelPointsV1TopicMessage implements PubSubMessage {
     private ChannelPointsRedemptionStatus status;
 
     private String id;
+
+    @Nullable
+    @SerializedName("user_input")
+    private String userInput;
 
     private ChannelPointsUser user;
 
@@ -69,6 +75,7 @@ public class ChannelPointsV1TopicMessage implements PubSubMessage {
         @SerializedName("is_user_input_required")
         private boolean userInputRequired;
 
+        @Nullable
         private ChannelPointsImages image;
 
         @SerializedName("default_image")

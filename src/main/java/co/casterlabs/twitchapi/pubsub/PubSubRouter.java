@@ -13,8 +13,8 @@ import org.java_websocket.handshake.ServerHandshake;
 
 import co.casterlabs.twitchapi.ThreadHelper;
 import co.casterlabs.twitchapi.TwitchApi;
+import co.casterlabs.twitchapi.pubsub.messages.PubSubMessage;
 import co.casterlabs.twitchapi.pubsub.networking.PubSubResponse;
-import co.casterlabs.twitchapi.pubsub.networking.messages.PubSubMessage;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 

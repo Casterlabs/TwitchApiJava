@@ -1,4 +1,4 @@
-package co.casterlabs.twitchapi.pubsub.networking.messages;
+package co.casterlabs.twitchapi.pubsub.messages;
 
 import co.casterlabs.twitchapi.pubsub.PubSubTopic;
 

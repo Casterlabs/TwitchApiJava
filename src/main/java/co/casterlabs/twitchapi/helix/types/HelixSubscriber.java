@@ -2,7 +2,7 @@ package co.casterlabs.twitchapi.helix.types;
 
 import com.google.gson.annotations.SerializedName;
 
-import co.casterlabs.twitchapi.pubsub.networking.messages.SubscriptionsV1TopicMessage.SubscriptionPlan;
+import co.casterlabs.twitchapi.pubsub.messages.SubscriptionsV1TopicMessage.SubscriptionPlan;
 import lombok.Getter;
 import lombok.ToString;
 

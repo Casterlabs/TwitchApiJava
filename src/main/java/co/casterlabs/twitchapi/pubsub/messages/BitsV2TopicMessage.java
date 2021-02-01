@@ -1,4 +1,6 @@
-package co.casterlabs.twitchapi.pubsub.networking.messages;
+package co.casterlabs.twitchapi.pubsub.messages;
+
+import org.jetbrains.annotations.Nullable;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -9,12 +11,15 @@ import lombok.ToString;
 @Getter
 @ToString
 public class BitsV2TopicMessage implements PubSubMessage {
+    @Nullable
     @SerializedName("user_name")
     private String username;
 
+    @Nullable
     @SerializedName("user_id")
     private String userId;
 
+    @Nullable
     @SerializedName("channel_name")
     private String channelname;
 
